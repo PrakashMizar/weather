@@ -51,6 +51,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                 fontFamily: 'Dancing',
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
               ),
             ),
             SizedBox(
