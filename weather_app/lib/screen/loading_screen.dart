@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:weather_app/services/location.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class LoadingScreen extends StatefulWidget {
   LoadingScreen({Key? key}) : super(key: key);
@@ -16,13 +18,32 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   void getLocation() async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    print(position);
+    Location location = Location();
+    await location.getCurrentLocation();
+    print(location.latitude);
+    print(location.longtitude);
+  }
+
+  void getData() async {
+    http.Response response = await http.get(
+      Uri.parse(
+          'https://api.openweathermap.org/data/2.5/weather?id=2172797&appid=acd7db633f44cc69cf09cf5825ea8a61'),
+    );
+    if (response.statusCode == 200) {
+      String data = response.body;
+      var longitude = jsonDecode(data)['coord']['lon'];
+      var weatherDesc = jsonDecode(data)['coord'][0]['description'];
+
+      print(longitude);
+      print(weatherDesc);
+    } else {
+      print(response.statusCode);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    getData();
     return Scaffold(
       appBar: AppBar(
         title: Text('Weather APP API'),
@@ -46,7 +67,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               height: 15.0,
             ),
             Text(
-              'WEATHER',
+              'WEATHER: Get Location',
               style: TextStyle(
                 fontFamily: 'Dancing',
                 fontSize: 20.0,
