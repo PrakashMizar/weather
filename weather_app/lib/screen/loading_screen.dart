@@ -46,7 +46,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               height: 15.0,
             ),
             Text(
-              'WEATHER: Get Location',
+              'WEATHER',
               style: TextStyle(
                 fontFamily: 'Dancing',
                 fontSize: 20.0,
