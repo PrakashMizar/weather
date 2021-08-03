@@ -13,9 +13,9 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  late double? latt;
-  late double? long;
-  late String? wDesc = '';
+  double? latt;
+  double? long;
+  String? wDesc = '';
   // late double? weatherTemp;
 
   @override
@@ -40,17 +40,16 @@ class _LoadingScreenState extends State<LoadingScreen> {
       Uri.parse(uri),
     );
     //NetworkHelp nethelper = NetworkHelp(url);
-    //var weatherdata =  nethelper.getData()
+    //var weatherdata =  nethelper.getData() : it should wait
     if (response.statusCode == 200) {
       String data = response.body;
-
-      var longitude = jsonDecode(data)['coord']['lon'];
+      //var longitude = jsonDecode(data)['coord']['lon'];
       var weatherDesc = jsonDecode(data)['weather'][0]['description'];
       var weatherTemp = jsonDecode(data)['main']['temp'];
       //print in the conosole
       wDesc = weatherDesc;
       print(wDesc);
-      print(longitude);
+      // print(longitude);
       print(weatherDesc);
       print(weatherTemp);
     } else {
@@ -61,7 +60,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //move to getlocation())
+    //moved to getlocation())
     //getData();
     return Scaffold(
       appBar: AppBar(
@@ -95,7 +94,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
               ),
             ),
             Text(
-              'longitude $long',
+              'longitude $latt',
               style: TextStyle(
                 fontFamily: 'Dancing',
                 fontSize: 20.0,
@@ -121,7 +120,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.amber),
               ),
-              onPressed: () => getLocation(),
+              onPressed: () {
+                setState(() {
+                  getLocation();
+                });
+              },
               child: Text(
                 'Get LatLon',
                 style: TextStyle(
